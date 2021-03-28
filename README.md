@@ -1,14 +1,14 @@
-# ESP32 Arduino Lib Builder [![Build Status](https://travis-ci.org/espressif/esp32-arduino-lib-builder.svg?branch=master)](https://travis-ci.org/espressif/esp32-arduino-lib-builder)
+## Using esp32-arduino-lib-builder to compile custom libraries
 
-This repository contains the scripts that produce the libraries included with esp32-arduino.
+Espressif has provided a [tool](https://github.com/espressif/esp32-arduino-lib-builder) to simplify building your own compiled libraries for use in Arduino IDE (or your favorite IDE).
+To use it to generate custom libraries, follow these steps:
+1. `git clone https://github.com/espressif/esp32-arduino-lib-builder`
+2. `cd esp32-arduino-lib-builder`
+3. `./tools/update-components.sh`
+4. `./tools/install-esp-idf.sh` (if you already have an $IDF_PATH defined, it will use your local copy of the repository)
+5. `make menuconfig` or directly edit sdkconfig.
+6. `./build.sh`
 
-Tested on Ubuntu (32 and 64 bit), Raspberry Pi and MacOS.
-
-### Build on Ubuntu and Raspberry Pi
-```bash
-sudo apt-get install git wget curl libssl-dev libncurses-dev flex bison gperf python python-pip python-setuptools python-serial python-click python-cryptography python-future python-pyparsing python-pyelftools cmake ninja-build ccache
-sudo pip install --upgrade pip
-git clone https://github.com/espressif/esp32-arduino-lib-builder
-cd esp32-arduino-lib-builder
-./build.sh
-```
+The script automates the process of building [arduino as an ESP-IDF component](https://github.com/espressif/arduino-esp32/blob/master/docs/esp-idf_component.md).
+Once it is complete, you can cherry pick the needed libraries from `out/tools/sdk/lib`, or run `tools/copy-to-arduino.sh` to copy the entire built system.
+`tools/config.sh` contains a number of variables that control the process, particularly the $IDF_BRANCH variable.  You can adjust this to try building against newer versions, but there are absolutely no guarantees that any components will work or even successfully compile against a newer IDF.
